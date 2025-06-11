@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Énergies Renouvelables - Cours</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Réutilisation des styles de base */
+        .course-container {
+            max-width: 1000px;
+            margin: 6rem auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .course-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .course-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--light-color);
+            z-index: 1001;
+        }
+
+        .course-progress-bar-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .course-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .course-section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .course-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .course-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .course-section h2::before {
+            content: '🌱';
+            font-size: 1.5rem;
+        }
+
+        .energy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .energy-card {
+            background: var(--light-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .energy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .energy-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .energy-card h3::before {
+            font-size: 1.5rem;
+        }
+
+        .energy-card.solar h3::before { content: '☀️'; }
+        .energy-card.wind h3::before { content: '💨'; }
+        .energy-card.hydro h3::before { content: '💧'; }
+        .energy-card.biomass h3::before { content: '🌿'; }
+        .energy-card.geothermal h3::before { content: '🌋'; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-color);
+        }
+
+        .comparison-table th {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover td {
+            background: var(--light-color);
+        }
+
+        .interactive-element {
+            background: var(--light-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .interactive-element:hover {
+            transform: translateX(10px);
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .interactive-element h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interactive-element h3::before {
+            content: '💡';
+        }
+
+        @media (max-width: 768px) {
+            .energy-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body class="course-page">
+    <div class="course-progress-bar">
+        <div class="course-progress-bar-fill"></div>
+    </div>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="cours.html">Cours</a></li>
+                <li><a href="jeu-ecologique.html">Jeu Écologique</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="course-container">
+            <div class="course-header">
+                <h1>Les Énergies Renouvelables</h1>
+                <p>Niveau : Intermédiaire | Durée : 3 heures</p>
+            </div>
+
+            <div class="course-content">
+                <section id="introduction" class="course-section">
+                    <h2>Introduction aux Énergies Renouvelables</h2>
+                    <p>Les énergies renouvelables sont des sources d'énergie qui se renouvellent naturellement et rapidement. Elles représentent une alternative durable aux énergies fossiles et contribuent à la lutte contre le changement climatique.</p>
+
+                    <div class="interactive-element">
+                        <h3>Saviez-vous ?</h3>
+                        <p>En 2020, les énergies renouvelables représentaient 26% de la production mondiale d'électricité, et cette part ne cesse d'augmenter.</p>
+                    </div>
+                </section>
+
+                <section id="types" class="course-section">
+                    <h2>Les Différents Types d'Énergies Renouvelables</h2>
+                    <div class="energy-grid">
+                        <div class="energy-card solar">
+                            <h3>Énergie Solaire</h3>
+                            <p>Utilise la lumière du soleil pour produire de l'électricité (photovoltaïque) ou de la chaleur (thermique).</p>
+                            <ul>
+                                <li>Inépuisable</li>
+                                <li>Zéro émission</li>
+                                <li>Adaptable à différentes échelles</li>
+                            </ul>
+                        </div>
+
+                        <div class="energy-card wind">
+                            <h3>Énergie Éolienne</h3>
+                            <p>Transforme l'énergie du vent en électricité grâce à des éoliennes.</p>
+                            <ul>
+                                <li>Source d'énergie propre</li>
+                                <li>Coût de production faible</li>
+                                <li>Grand potentiel de développement</li>
+                            </ul>
+                        </div>
+
+                        <div class="energy-card hydro">
+                            <h3>Énergie Hydraulique</h3>
+                            <p>Utilise la force de l'eau pour produire de l'électricité.</p>
+                            <ul>
+                                <li>Source d'énergie stable</li>
+                                <li>Stockage possible</li>
+                                <li>Production à grande échelle</li>
+                            </ul>
+                        </div>
+
+                        <div class="energy-card biomass">
+                            <h3>Biomasse</h3>
+                            <p>Utilise la matière organique pour produire de l'énergie.</p>
+                            <ul>
+                                <li>Valorisation des déchets</li>
+                                <li>Énergie stockable</li>
+                                <li>Production de chaleur et d'électricité</li>
+                            </ul>
+                        </div>
+
+                        <div class="energy-card geothermal">
+                            <h3>Géothermie</h3>
+                            <p>Exploite la chaleur du sous-sol pour produire de l'énergie.</p>
+                            <ul>
+                                <li>Source d'énergie constante</li>
+                                <li>Faible impact environnemental</li>
+                                <li>Production de chaleur et d'électricité</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="avantages" class="course-section">
+                    <h2>Avantages et Défis</h2>
+                    <div class="comparison-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Avantages</th>
+                                    <th>Défis</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Énergie propre et renouvelable</td>
+                                    <td>Intermittence de certaines sources</td>
+                                </tr>
+                                <tr>
+                                    <td>Réduction des émissions de CO2</td>
+                                    <td>Coûts d'investissement initiaux</td>
+                                </tr>
+                                <tr>
+                                    <td>Indépendance énergétique</td>
+                                    <td>Besoin de stockage d'énergie</td>
+                                </tr>
+                                <tr>
+                                    <td>Création d'emplois locaux</td>
+                                    <td>Impact sur le paysage</td>
+                                </tr>
+                                <tr>
+                                    <td>Coûts d'exploitation faibles</td>
+                                    <td>Dépendance aux conditions météorologiques</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="futur" class="course-section">
+                    <h2>Le Futur des Énergies Renouvelables</h2>
+                    <p>Les énergies renouvelables sont en plein essor et représentent l'avenir de notre système énergétique. Les innovations technologiques et la baisse des coûts permettent une adoption croissante à l'échelle mondiale.</p>
+
+                    <div class="interactive-element">
+                        <h3>Objectifs mondiaux</h3>
+                        <p>L'Agence Internationale de l'Énergie prévoit que les énergies renouvelables représenteront 80% de la production d'électricité mondiale d'ici 2050.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Section Quiz -->
+        <div class="quiz-section">
+            <h2>Quiz : Testez vos connaissances sur les énergies renouvelables</h2>
+            <div class="quiz-progress">
+                <div class="quiz-progress-bar"></div>
+            </div>
+
+            <div class="quiz-question active" data-question="1">
+                <h3>Quelle est la source d'énergie renouvelable la plus utilisée dans le monde ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        L'énergie solaire
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        L'énergie hydraulique
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        L'énergie éolienne
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        La géothermie
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="2">
+                <h3>Quel est le principal avantage des énergies renouvelables ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        Leur coût d'installation
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        Leur caractère inépuisable et non polluant
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Leur facilité d'installation
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Leur rendement constant
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="3">
+                <h3>Quel est le principal défi des énergies renouvelables ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        Leur coût de production
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        Leur intermittence et le besoin de stockage
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Leur impact visuel
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Leur disponibilité
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="4">
+                <h3>Quelle est la principale limitation des énergies renouvelables ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        Leur coût d'installation
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        Leur intermittence et la nécessité de stockage
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Leur impact visuel
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Leur durée de vie
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="5">
+                <h3>Quelle énergie renouvelable est la plus utilisée dans le monde ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        L'énergie solaire
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        L'énergie éolienne
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        L'énergie hydraulique
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        L'énergie géothermique
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-navigation">
+                <button class="quiz-button" id="prevQuestion" disabled>Question précédente</button>
+                <button class="quiz-button" id="nextQuestion">Question suivante</button>
+            </div>
+
+            <div class="quiz-results">
+                <div class="quiz-score">Score: <span id="score">0</span>/5</div>
+                <div class="quiz-feedback" id="feedback"></div>
+                <button class="quiz-restart">Recommencer le quiz</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Écologie et Énergies Fossiles. Tous droits réservés.</p>
+    </footer>
+
+    <!-- Éléments décoratifs -->
+    <div class="floating-element leaf" style="top: 15%; right: 5%;"></div>
+    <div class="floating-element drop" style="top: 35%; left: 8%;"></div>
+    <div class="floating-element sun" style="top: 55%; right: 12%;"></div>
+    <div class="floating-element leaf" style="top: 75%; left: 15%;"></div>
+    <div class="floating-element drop" style="top: 90%; right: 10%;"></div>
+
+    <script>
+        // Animation des sections au scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.course-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Mise à jour de la barre de progression
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.querySelector('.course-progress-bar-fill').style.width = scrolled + '%';
+        });
+
+        // Animation des éléments flottants
+        function animateFloatingElements() {
+            const elements = document.querySelectorAll('.floating-element');
+            elements.forEach(element => {
+                const randomX = Math.random() * 20 - 10;
+                const randomY = Math.random() * 20 - 10;
+                const randomDelay = Math.random() * 2;
+                element.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                element.style.animationDelay = `${randomDelay}s`;
+            });
+        }
+
+        setInterval(animateFloatingElements, 5000);
+        animateFloatingElements();
+
+        // Quiz functionality
+        const quizQuestions = document.querySelectorAll('.quiz-question');
+        const prevButton = document.getElementById('prevQuestion');
+        const nextButton = document.getElementById('nextQuestion');
+        const progressBar = document.querySelector('.quiz-progress-bar');
+        const quizResults = document.querySelector('.quiz-results');
+        const scoreElement = document.getElementById('score');
+        const feedbackElement = document.getElementById('feedback');
+        const restartButton = document.querySelector('.quiz-restart');
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = new Array(quizQuestions.length).fill(null);
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function showQuestion(index) {
+            quizQuestions.forEach(q => q.classList.remove('active'));
+            quizQuestions[index].classList.add('active');
+            
+            prevButton.disabled = index === 0;
+            nextButton.textContent = index === quizQuestions.length - 1 ? 'Terminer' : 'Question suivante';
+            
+            updateProgress();
+        }
+
+        function checkAnswer(questionIndex, optionIndex) {
+            const question = quizQuestions[questionIndex];
+            const options = question.querySelectorAll('.quiz-option');
+            
+            options.forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+
+            const selectedOption = options[optionIndex];
+            const isCorrect = selectedOption.dataset.correct === 'true';
+            
+            selectedOption.classList.add('selected');
+            selectedOption.classList.add(isCorrect ? 'correct' : 'incorrect');
+            
+            if (isCorrect && answers[questionIndex] === null) {
+                score++;
+            } else if (!isCorrect && answers[questionIndex] !== null) {
+                score--;
+            }
+            
+            answers[questionIndex] = optionIndex;
+        }
+
+        function showResults() {
+            quizQuestions.forEach(q => q.style.display = 'none');
+            quizResults.classList.add('active');
+            scoreElement.textContent = score;
+            
+            const percentage = (score / quizQuestions.length) * 100;
+            let feedback = '';
+            
+            if (percentage === 100) {
+                feedback = 'Excellent ! Vous êtes un expert des énergies renouvelables !';
+            } else if (percentage >= 80) {
+                feedback = 'Très bien ! Vous avez une excellente compréhension des énergies renouvelables.';
+            } else if (percentage >= 60) {
+                feedback = 'Bien ! Vous avez une bonne compréhension des énergies renouvelables.';
+            } else if (percentage >= 40) {
+                feedback = 'Pas mal ! Vous avez des bases solides, mais il reste des points à approfondir.';
+            } else {
+                feedback = 'Continuez à apprendre ! Les énergies renouvelables sont essentielles pour notre avenir énergétique.';
+            }
+            
+            feedbackElement.textContent = feedback;
+        }
+
+        // Event listeners
+        quizQuestions.forEach((question, qIndex) => {
+            const options = question.querySelectorAll('.quiz-option');
+            options.forEach((option, oIndex) => {
+                option.addEventListener('click', () => checkAnswer(qIndex, oIndex));
+            });
+        });
+
+        prevButton.addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestion < quizQuestions.length - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else {
+                showResults();
+            }
+        });
+
+        restartButton.addEventListener('click', () => {
+            currentQuestion = 0;
+            score = 0;
+            answers = new Array(quizQuestions.length).fill(null);
+            quizQuestions.forEach(q => {
+                q.style.display = 'block';
+                q.querySelectorAll('.quiz-option').forEach(o => {
+                    o.classList.remove('selected', 'correct', 'incorrect');
+                });
+            });
+            quizResults.classList.remove('active');
+            showQuestion(0);
+        });
+
+        // Initialize quiz
+        showQuestion(0);
+    </script>
+    <script src="nav.js"></script>
+</body>
+</html> 

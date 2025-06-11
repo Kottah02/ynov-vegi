@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Énergies Fossiles - Cours</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Réutilisation des styles de base */
+        .course-container {
+            max-width: 1000px;
+            margin: 6rem auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .course-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .course-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--light-color);
+            z-index: 1001;
+        }
+
+        .course-progress-bar-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .course-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .course-section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .course-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .course-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .course-section h2::before {
+            content: '🛢️';
+            font-size: 1.5rem;
+        }
+
+        .course-section p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .course-section ul {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .course-section li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .interactive-element {
+            background: var(--light-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .interactive-element:hover {
+            transform: translateX(10px);
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .interactive-element h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interactive-element h3::before {
+            content: '💡';
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: var(--primary-color);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            width: 50%;
+            padding: 0 2rem;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            position: relative;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            right: -60px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            left: -60px;
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .course-navigation {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            z-index: 100;
+        }
+
+        .course-navigation ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .course-navigation li {
+            margin-bottom: 0.5rem;
+        }
+
+        .course-navigation a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            display: block;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .course-navigation a:hover,
+        .course-navigation a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .course-navigation {
+                display: none;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 50px;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+
+            .timeline-content::before {
+                left: -40px !important;
+            }
+        }
+    </style>
+</head>
+<body class="course-page">
+    <div class="course-progress-bar">
+        <div class="course-progress-bar-fill"></div>
+    </div>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="cours.html">Cours</a></li>
+                <li><a href="jeu-ecologique.html">Jeu Écologique</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="course-container">
+            <div class="course-header">
+                <h1>Les Énergies Fossiles</h1>
+                <p>Niveau : Avancé | Durée : 4 heures</p>
+            </div>
+
+            <div class="course-content">
+                <section id="definition" class="course-section">
+                    <h2>Qu'est-ce que les Énergies Fossiles ?</h2>
+                    <p>Les énergies fossiles sont des sources d'énergie non renouvelables formées à partir de la décomposition de matières organiques sur des millions d'années. Elles comprennent principalement :</p>
+                    <ul>
+                        <li>Le pétrole</li>
+                        <li>Le charbon</li>
+                        <li>Le gaz naturel</li>
+                    </ul>
+
+                    <div class="interactive-element">
+                        <h3>Saviez-vous ?</h3>
+                        <p>Il a fallu environ 300 millions d'années pour former les réserves de pétrole que nous avons consommées en seulement 150 ans.</p>
+                    </div>
+                </section>
+
+                <section id="histoire" class="course-section">
+                    <h2>Histoire des Énergies Fossiles</h2>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-date">1769</div>
+                                <h3>Première machine à vapeur</h3>
+                                <p>James Watt améliore la machine à vapeur, marquant le début de la révolution industrielle et l'utilisation massive du charbon.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-date">1859</div>
+                                <h3>Premier puits de pétrole</h3>
+                                <p>Edwin Drake fore le premier puits de pétrole commercial en Pennsylvanie, marquant le début de l'ère du pétrole.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-date">1973</div>
+                                <h3>Premier choc pétrolier</h3>
+                                <p>La crise pétrolière de 1973 révèle la dépendance mondiale aux énergies fossiles.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-date">2021</div>
+                                <h3>Accord de Paris</h3>
+                                <p>Les nations s'engagent à réduire drastiquement l'utilisation des énergies fossiles pour limiter le réchauffement climatique.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="impact" class="course-section">
+                    <h2>Impact Environnemental</h2>
+                    <p>Les énergies fossiles ont un impact significatif sur notre environnement :</p>
+                    <ul>
+                        <li>Émissions de gaz à effet de serre (CO2, méthane)</li>
+                        <li>Pollution de l'air (particules fines, oxydes d'azote)</li>
+                        <li>Réchauffement climatique</li>
+                        <li>Acidification des océans</li>
+                        <li>Pollution des sols et des eaux</li>
+                    </ul>
+
+                    <div class="interactive-element">
+                        <h3>Chiffre clé</h3>
+                        <p>La combustion des énergies fossiles est responsable de plus de 75% des émissions mondiales de CO2.</p>
+                    </div>
+                </section>
+
+                <section id="alternatives" class="course-section">
+                    <h2>Alternatives et Transition</h2>
+                    <p>Face aux enjeux climatiques, plusieurs alternatives se développent :</p>
+                    <ul>
+                        <li>Énergies renouvelables (solaire, éolienne, hydraulique)</li>
+                        <li>Énergie nucléaire</li>
+                        <li>Biomasse</li>
+                        <li>Géothermie</li>
+                        <li>Hydrogène vert</li>
+                    </ul>
+
+                    <div class="interactive-element">
+                        <h3>Transition énergétique</h3>
+                        <p>La transition vers les énergies renouvelables est en cours, mais nécessite des investissements massifs et une volonté politique forte.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Section Quiz -->
+        <div class="quiz-section">
+            <h2>Quiz : Testez vos connaissances sur les énergies fossiles</h2>
+            <div class="quiz-progress">
+                <div class="quiz-progress-bar"></div>
+            </div>
+
+            <div class="quiz-question active" data-question="1">
+                <h3>Quelles sont les principales énergies fossiles ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        Le solaire et l'éolien
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        Le pétrole, le charbon et le gaz naturel
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        L'hydroélectricité et la géothermie
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        La biomasse et le nucléaire
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="2">
+                <h3>Combien de temps a-t-il fallu pour former les réserves de pétrole ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        Quelques milliers d'années
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Quelques millions d'années
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        Plus de 300 millions d'années
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Quelques milliards d'années
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="3">
+                <h3>Quel est le principal impact environnemental des énergies fossiles ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        La pollution des sols uniquement
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        La pollution de l'eau uniquement
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        Les émissions de gaz à effet de serre et le réchauffement climatique
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        La déforestation uniquement
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="4">
+                <h3>Quelle est la principale cause du réchauffement climatique lié aux énergies fossiles ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        La chaleur dégagée lors de la combustion
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        L'émission de gaz à effet de serre lors de la combustion
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        La pollution des sols lors de l'extraction
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Les déchets radioactifs produits
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="5">
+                <h3>Quelle est la principale différence entre le pétrole conventionnel et non conventionnel ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        Le pétrole non conventionnel est plus propre
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Le pétrole conventionnel est plus cher à extraire
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        Le pétrole non conventionnel nécessite des techniques d'extraction plus complexes
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Le pétrole conventionnel est plus abondant
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-navigation">
+                <button class="quiz-button" id="prevQuestion" disabled>Question précédente</button>
+                <button class="quiz-button" id="nextQuestion">Question suivante</button>
+            </div>
+
+            <div class="quiz-results">
+                <div class="quiz-score">Score: <span id="score">0</span>/5</div>
+                <div class="quiz-feedback" id="feedback"></div>
+                <button class="quiz-restart">Recommencer le quiz</button>
+            </div>
+        </div>
+
+        <nav class="course-navigation">
+            <ul>
+                <li><a href="#definition">Définition</a></li>
+                <li><a href="#histoire">Histoire</a></li>
+                <li><a href="#impact">Impact</a></li>
+                <li><a href="#alternatives">Alternatives</a></li>
+            </ul>
+        </nav>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Écologie et Énergies Fossiles. Tous droits réservés.</p>
+    </footer>
+
+    <!-- Éléments décoratifs -->
+    <div class="floating-element leaf" style="top: 25%; left: 8%;"></div>
+    <div class="floating-element drop" style="top: 45%; right: 10%;"></div>
+    <div class="floating-element sun" style="top: 65%; left: 12%;"></div>
+    <div class="floating-element leaf" style="top: 85%; right: 8%;"></div>
+    <div class="floating-element drop" style="top: 95%; left: 15%;"></div>
+
+    <script>
+        // Animation des sections au scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.course-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Mise à jour de la barre de progression
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.querySelector('.course-progress-bar-fill').style.width = scrolled + '%';
+        });
+
+        // Navigation active
+        const sections = document.querySelectorAll('.course-section');
+        const navLinks = document.querySelectorAll('.course-navigation a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Animation des éléments interactifs
+        document.querySelectorAll('.interactive-element').forEach(element => {
+            element.addEventListener('click', () => {
+                element.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    element.style.transform = 'translateX(10px)';
+                }, 200);
+            });
+        });
+
+        // Animation de la timeline
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateX(0)';
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        timelineItems.forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(-50px)';
+            item.style.transition = 'all 0.5s ease';
+            timelineObserver.observe(item);
+        });
+
+        // Quiz functionality
+        const quizQuestions = document.querySelectorAll('.quiz-question');
+        const prevButton = document.getElementById('prevQuestion');
+        const nextButton = document.getElementById('nextQuestion');
+        const progressBar = document.querySelector('.quiz-progress-bar');
+        const quizResults = document.querySelector('.quiz-results');
+        const scoreElement = document.getElementById('score');
+        const feedbackElement = document.getElementById('feedback');
+        const restartButton = document.querySelector('.quiz-restart');
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = new Array(quizQuestions.length).fill(null);
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function showQuestion(index) {
+            quizQuestions.forEach(q => q.classList.remove('active'));
+            quizQuestions[index].classList.add('active');
+            
+            prevButton.disabled = index === 0;
+            nextButton.textContent = index === quizQuestions.length - 1 ? 'Terminer' : 'Question suivante';
+            
+            updateProgress();
+        }
+
+        function checkAnswer(questionIndex, optionIndex) {
+            const question = quizQuestions[questionIndex];
+            const options = question.querySelectorAll('.quiz-option');
+            
+            options.forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+
+            const selectedOption = options[optionIndex];
+            const isCorrect = selectedOption.dataset.correct === 'true';
+            
+            selectedOption.classList.add('selected');
+            selectedOption.classList.add(isCorrect ? 'correct' : 'incorrect');
+            
+            if (isCorrect && answers[questionIndex] === null) {
+                score++;
+            } else if (!isCorrect && answers[questionIndex] !== null) {
+                score--;
+            }
+            
+            answers[questionIndex] = optionIndex;
+        }
+
+        function showResults() {
+            quizQuestions.forEach(q => q.style.display = 'none');
+            quizResults.classList.add('active');
+            scoreElement.textContent = score;
+            
+            const percentage = (score / quizQuestions.length) * 100;
+            let feedback = '';
+            
+            if (percentage === 100) {
+                feedback = 'Excellent ! Vous êtes un expert des énergies fossiles !';
+            } else if (percentage >= 80) {
+                feedback = 'Très bien ! Vous avez une excellente compréhension des énergies fossiles.';
+            } else if (percentage >= 60) {
+                feedback = 'Bien ! Vous avez une bonne compréhension des énergies fossiles.';
+            } else if (percentage >= 40) {
+                feedback = 'Pas mal ! Vous avez des bases solides, mais il reste des points à approfondir.';
+            } else {
+                feedback = 'Continuez à apprendre ! La compréhension des énergies fossiles est essentielle pour notre avenir énergétique.';
+            }
+            
+            feedbackElement.textContent = feedback;
+        }
+
+        // Event listeners
+        quizQuestions.forEach((question, qIndex) => {
+            const options = question.querySelectorAll('.quiz-option');
+            options.forEach((option, oIndex) => {
+                option.addEventListener('click', () => checkAnswer(qIndex, oIndex));
+            });
+        });
+
+        prevButton.addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestion < quizQuestions.length - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else {
+                showResults();
+            }
+        });
+
+        restartButton.addEventListener('click', () => {
+            currentQuestion = 0;
+            score = 0;
+            answers = new Array(quizQuestions.length).fill(null);
+            quizQuestions.forEach(q => {
+                q.style.display = 'block';
+                q.querySelectorAll('.quiz-option').forEach(o => {
+                    o.classList.remove('selected', 'correct', 'incorrect');
+                });
+            });
+            quizResults.classList.remove('active');
+            showQuestion(0);
+        });
+
+        // Initialize quiz
+        showQuestion(0);
+    </script>
+    <script src="nav.js"></script>
+</body>
+</html> 

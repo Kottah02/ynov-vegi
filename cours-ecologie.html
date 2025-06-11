@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction à l'Écologie - Cours</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .course-container {
+            max-width: 1000px;
+            margin: 6rem auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .course-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .course-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--light-color);
+            z-index: 1001;
+        }
+
+        .course-progress-bar-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .course-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .course-section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .course-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .course-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .course-section h2::before {
+            content: '📚';
+            font-size: 1.5rem;
+        }
+
+        .course-section p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .course-section ul {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .course-section li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .interactive-element {
+            background: var(--light-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .interactive-element:hover {
+            transform: translateX(10px);
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .interactive-element h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interactive-element h3::before {
+            content: '💡';
+        }
+
+        .course-navigation {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            z-index: 100;
+        }
+
+        .course-navigation ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .course-navigation li {
+            margin-bottom: 0.5rem;
+        }
+
+        .course-navigation a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            display: block;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .course-navigation a:hover,
+        .course-navigation a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .course-navigation {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="course-page">
+    <div class="course-progress-bar">
+        <div class="course-progress-bar-fill"></div>
+    </div>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="cours.html">Cours</a></li>
+                <li><a href="jeu-ecologique.html">Jeu Écologique</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="course-container">
+            <div class="course-header">
+                <h1>Introduction à l'Écologie</h1>
+                <p>Niveau : Débutant | Durée : 2 heures</p>
+            </div>
+
+            <div class="course-content">
+                <section id="introduction" class="course-section">
+                    <h2>Qu'est-ce que l'Écologie ?</h2>
+                    <p>L'écologie est la science qui étudie les relations entre les êtres vivants et leur environnement. Elle nous aide à comprendre comment les organismes interagissent entre eux et avec leur milieu naturel.</p>
+                    
+                    <div class="interactive-element">
+                        <h3>Saviez-vous ?</h3>
+                        <p>Le terme "écologie" vient du grec "oikos" (maison) et "logos" (étude). Littéralement, c'est l'étude de notre "maison" commune : la Terre.</p>
+                    </div>
+                </section>
+
+                <section id="ecosystemes" class="course-section">
+                    <h2>Les Écosystèmes</h2>
+                    <p>Un écosystème est un ensemble formé par une communauté d'êtres vivants et son environnement physique. Les écosystèmes peuvent être :</p>
+                    <ul>
+                        <li>Terrestres (forêts, déserts, prairies)</li>
+                        <li>Aquatiques (océans, lacs, rivières)</li>
+                        <li>Mixtes (zones humides, mangroves)</li>
+                    </ul>
+
+                    <div class="interactive-element">
+                        <h3>À découvrir</h3>
+                        <p>La forêt amazonienne est le plus grand écosystème terrestre, abritant plus de 390 milliards d'arbres et 16 000 espèces différentes.</p>
+                    </div>
+                </section>
+
+                <section id="biodiversite" class="course-section">
+                    <h2>La Biodiversité</h2>
+                    <p>La biodiversité représente la variété de la vie sur Terre. Elle comprend :</p>
+                    <ul>
+                        <li>La diversité des espèces</li>
+                        <li>La diversité génétique</li>
+                        <li>La diversité des écosystèmes</li>
+                    </ul>
+
+                    <div class="interactive-element">
+                        <h3>Chiffre clé</h3>
+                        <p>On estime qu'il existe entre 5 et 30 millions d'espèces sur Terre, dont seulement 1,7 million ont été identifiées à ce jour.</p>
+                    </div>
+                </section>
+
+                <section id="changements-climatiques" class="course-section">
+                    <h2>Les Changements Climatiques</h2>
+                    <p>Les changements climatiques représentent l'un des plus grands défis écologiques de notre époque. Ils sont principalement causés par :</p>
+                    <ul>
+                        <li>L'augmentation des gaz à effet de serre</li>
+                        <li>La déforestation</li>
+                        <li>Les activités humaines polluantes</li>
+                    </ul>
+
+                    <div class="interactive-element">
+                        <h3>Impact</h3>
+                        <p>La température moyenne de la Terre a augmenté d'environ 1°C depuis l'ère préindustrielle, et continue de s'élever.</p>
+                    </div>
+                </section>
+
+                <section id="solutions" class="course-section">
+                    <h2>Solutions et Actions</h2>
+                    <p>Chacun peut contribuer à la protection de l'environnement :</p>
+                    <ul>
+                        <li>Réduire sa consommation d'énergie</li>
+                        <li>Privilégier les transports durables</li>
+                        <li>Adopter une alimentation responsable</li>
+                        <li>Réduire ses déchets</li>
+                    </ul>
+
+                    <div class="interactive-element">
+                        <h3>Action immédiate</h3>
+                        <p>Commencez par calculer votre empreinte écologique pour identifier les domaines où vous pouvez agir.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Section Quiz -->
+        <div class="quiz-section">
+            <h2>Quiz : Testez vos connaissances en écologie</h2>
+            <div class="quiz-progress">
+                <div class="quiz-progress-bar"></div>
+            </div>
+
+            <div class="quiz-question active" data-question="1">
+                <h3>Qu'est-ce qu'un écosystème ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="true">
+                        Un ensemble d'êtres vivants et leur environnement physique qui interagissent entre eux
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Uniquement les animaux d'une région
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Seulement les plantes d'un territoire
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Un système de recyclage des déchets
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="2">
+                <h3>Quelle est la principale cause de la perte de biodiversité ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        Les catastrophes naturelles
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        Les activités humaines (déforestation, pollution, etc.)
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Les changements climatiques naturels
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Les épidémies
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="3">
+                <h3>Qu'est-ce que le réchauffement climatique ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        Un phénomène naturel sans impact sur l'environnement
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Une augmentation temporaire de la température
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        Une augmentation de la température moyenne de la Terre due aux gaz à effet de serre
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Un changement de saison
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="4">
+                <h3>Quelle est la solution la plus efficace pour réduire son impact environnemental ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        Recycler ses déchets
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Utiliser des produits bio
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        Adopter un mode de vie plus sobre et réduire sa consommation
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Planter des arbres
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="5">
+                <h3>Qu'est-ce que la biodiversité ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        Uniquement la diversité des animaux
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Seulement la diversité des plantes
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        La diversité de toutes les formes de vie sur Terre (animaux, plantes, micro-organismes)
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        La diversité des paysages
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-navigation">
+                <button class="quiz-button" id="prevQuestion" disabled>Question précédente</button>
+                <button class="quiz-button" id="nextQuestion">Question suivante</button>
+            </div>
+
+            <div class="quiz-results">
+                <div class="quiz-score">Score: <span id="score">0</span>/5</div>
+                <div class="quiz-feedback" id="feedback"></div>
+                <button class="quiz-restart">Recommencer le quiz</button>
+            </div>
+        </div>
+
+        <nav class="course-navigation">
+            <ul>
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#ecosystemes">Écosystèmes</a></li>
+                <li><a href="#biodiversite">Biodiversité</a></li>
+                <li><a href="#changements-climatiques">Changements Climatiques</a></li>
+                <li><a href="#solutions">Solutions</a></li>
+            </ul>
+        </nav>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Écologie et Énergies Fossiles. Tous droits réservés.</p>
+    </footer>
+
+    <!-- Éléments décoratifs -->
+    <div class="floating-element leaf" style="top: 10%; left: 5%;"></div>
+    <div class="floating-element drop" style="top: 20%; right: 8%;"></div>
+    <div class="floating-element sun" style="top: 30%; left: 15%;"></div>
+    <div class="floating-element leaf" style="top: 60%; right: 12%;"></div>
+    <div class="floating-element drop" style="top: 80%; left: 10%;"></div>
+
+    <script>
+        // Animation des sections au scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.course-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Mise à jour de la barre de progression
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.querySelector('.course-progress-bar-fill').style.width = scrolled + '%';
+        });
+
+        // Navigation active
+        const sections = document.querySelectorAll('.course-section');
+        const navLinks = document.querySelectorAll('.course-navigation a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Animation des éléments interactifs
+        document.querySelectorAll('.interactive-element').forEach(element => {
+            element.addEventListener('click', () => {
+                element.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    element.style.transform = 'translateX(10px)';
+                }, 200);
+            });
+        });
+
+        // Animation des éléments flottants
+        function animateFloatingElements() {
+            const elements = document.querySelectorAll('.floating-element');
+            elements.forEach(element => {
+                const randomX = Math.random() * 20 - 10;
+                const randomY = Math.random() * 20 - 10;
+                const randomDelay = Math.random() * 2;
+                element.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                element.style.animationDelay = `${randomDelay}s`;
+            });
+        }
+
+        // Appeler l'animation toutes les 5 secondes
+        setInterval(animateFloatingElements, 5000);
+        animateFloatingElements();
+
+        // Quiz functionality
+        const quizQuestions = document.querySelectorAll('.quiz-question');
+        const prevButton = document.getElementById('prevQuestion');
+        const nextButton = document.getElementById('nextQuestion');
+        const progressBar = document.querySelector('.quiz-progress-bar');
+        const quizResults = document.querySelector('.quiz-results');
+        const scoreElement = document.getElementById('score');
+        const feedbackElement = document.getElementById('feedback');
+        const restartButton = document.querySelector('.quiz-restart');
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = new Array(quizQuestions.length).fill(null);
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function showQuestion(index) {
+            quizQuestions.forEach(q => q.classList.remove('active'));
+            quizQuestions[index].classList.add('active');
+            
+            prevButton.disabled = index === 0;
+            nextButton.textContent = index === quizQuestions.length - 1 ? 'Terminer' : 'Question suivante';
+            
+            updateProgress();
+        }
+
+        function checkAnswer(questionIndex, optionIndex) {
+            const question = quizQuestions[questionIndex];
+            const options = question.querySelectorAll('.quiz-option');
+            
+            options.forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+
+            const selectedOption = options[optionIndex];
+            const isCorrect = selectedOption.dataset.correct === 'true';
+            
+            selectedOption.classList.add('selected');
+            selectedOption.classList.add(isCorrect ? 'correct' : 'incorrect');
+            
+            if (isCorrect && answers[questionIndex] === null) {
+                score++;
+            } else if (!isCorrect && answers[questionIndex] !== null) {
+                score--;
+            }
+            
+            answers[questionIndex] = optionIndex;
+        }
+
+        function showResults() {
+            quizQuestions.forEach(q => q.style.display = 'none');
+            quizResults.classList.add('active');
+            scoreElement.textContent = score;
+            
+            const percentage = (score / quizQuestions.length) * 100;
+            let feedback = '';
+            
+            if (percentage === 100) {
+                feedback = 'Excellent ! Vous maîtrisez parfaitement les concepts d\'écologie !';
+            } else if (percentage >= 80) {
+                feedback = 'Très bien ! Vous avez une excellente compréhension de l\'écologie.';
+            } else if (percentage >= 60) {
+                feedback = 'Bien ! Vous avez une bonne compréhension de l\'écologie.';
+            } else if (percentage >= 40) {
+                feedback = 'Pas mal ! Vous avez des bases solides, mais il reste des points à approfondir.';
+            } else {
+                feedback = 'Continuez à apprendre ! L\'écologie est un sujet passionnant qui mérite d\'être approfondi.';
+            }
+            
+            feedbackElement.textContent = feedback;
+        }
+
+        // Event listeners
+        quizQuestions.forEach((question, qIndex) => {
+            const options = question.querySelectorAll('.quiz-option');
+            options.forEach((option, oIndex) => {
+                option.addEventListener('click', () => checkAnswer(qIndex, oIndex));
+            });
+        });
+
+        prevButton.addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestion < quizQuestions.length - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else {
+                showResults();
+            }
+        });
+
+        restartButton.addEventListener('click', () => {
+            currentQuestion = 0;
+            score = 0;
+            answers = new Array(quizQuestions.length).fill(null);
+            quizQuestions.forEach(q => {
+                q.style.display = 'block';
+                q.querySelectorAll('.quiz-option').forEach(o => {
+                    o.classList.remove('selected', 'correct', 'incorrect');
+                });
+            });
+            quizResults.classList.remove('active');
+            showQuestion(0);
+        });
+
+        // Initialize quiz
+        showQuestion(0);
+    </script>
+    <script src="nav.js"></script>
+</body>
+</html> 

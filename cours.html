@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours - Écologie et Énergies Fossiles</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .course-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7));
+        }
+
+        .course-content {
+            padding: 1.5rem;
+        }
+
+        .course-content h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .course-content p {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: var(--light-color);
+            font-size: 0.9rem;
+            color: var(--dark-color);
+        }
+
+        .course-duration {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .course-level {
+            padding: 0.25rem 0.75rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .course-card a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .course-progress {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="cours.html" class="active">Cours</a></li>
+                <li><a href="jeu-ecologique.html">Jeu Écologique</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Nos Cours sur l'Écologie</h1>
+            <p>Découvrez nos cours complets sur l'écologie et les énergies</p>
+        </section>
+
+        <div class="courses-grid">
+            <a href="cours-ecologie.html" class="course-card">
+                <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <div class="course-progress">Nouveau</div>
+                </div>
+                <div class="course-content">
+                    <h2>Introduction à l'Écologie</h2>
+                    <p>Découvrez les bases de l'écologie et son importance dans notre monde moderne. Comprenez les enjeux environnementaux actuels.</p>
+                </div>
+                <div class="course-meta">
+                    <div class="course-duration">
+                        <span>⏱️</span>
+                        <span>2 heures</span>
+                    </div>
+                    <div class="course-level">Débutant</div>
+                </div>
+            </a>
+
+            <a href="cours-empreinte-carbone.html" class="course-card">
+                <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <div class="course-progress">Populaire</div>
+                </div>
+                <div class="course-content">
+                    <h2>L'Empreinte Carbone</h2>
+                    <p>Apprenez à calculer et réduire votre empreinte carbone. Découvrez les gestes quotidiens pour un mode de vie plus durable.</p>
+                </div>
+                <div class="course-meta">
+                    <div class="course-duration">
+                        <span>⏱️</span>
+                        <span>3 heures</span>
+                    </div>
+                    <div class="course-level">Intermédiaire</div>
+                </div>
+            </a>
+
+            <a href="cours-energies-fossiles.html" class="course-card">
+                <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                </div>
+                <div class="course-content">
+                    <h2>Les Énergies Fossiles</h2>
+                    <p>Explorez l'histoire, l'impact et l'avenir des énergies fossiles. Comprenez leur rôle dans le changement climatique.</p>
+                </div>
+                <div class="course-meta">
+                    <div class="course-duration">
+                        <span>⏱️</span>
+                        <span>4 heures</span>
+                    </div>
+                    <div class="course-level">Avancé</div>
+                </div>
+            </a>
+
+            <a href="cours-energies-renouvelables.html" class="course-card">
+                <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                </div>
+                <div class="course-content">
+                    <h2>Les Énergies Renouvelables</h2>
+                    <p>Découvrez les différentes sources d'énergies renouvelables et leur potentiel pour un avenir durable.</p>
+                </div>
+                <div class="course-meta">
+                    <div class="course-duration">
+                        <span>⏱️</span>
+                        <span>3 heures</span>
+                    </div>
+                    <div class="course-level">Intermédiaire</div>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Écologie et Énergies Fossiles. Tous droits réservés.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="nav.js"></script>
+</body>
+</html> 

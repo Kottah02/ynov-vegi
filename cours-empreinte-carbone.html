@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Empreinte Carbone - Cours</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Réutilisation des styles de cours-ecologie.html */
+        .course-container {
+            max-width: 1000px;
+            margin: 6rem auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .course-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .course-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--light-color);
+            z-index: 1001;
+        }
+
+        .course-progress-bar-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .course-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .course-section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .course-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .course-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .course-section h2::before {
+            content: '🌍';
+            font-size: 1.5rem;
+        }
+
+        .course-section p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .course-section ul {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .course-section li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .interactive-element {
+            background: var(--light-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .interactive-element:hover {
+            transform: translateX(10px);
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .interactive-element h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interactive-element h3::before {
+            content: '💡';
+        }
+
+        .calculator {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            margin: 2rem 0;
+        }
+
+        .calculator h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .calculator-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.8rem;
+            border: 2px solid var(--light-color);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .calculator-result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--light-color);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .calculator-result.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .course-navigation {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            z-index: 100;
+        }
+
+        .course-navigation ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .course-navigation li {
+            margin-bottom: 0.5rem;
+        }
+
+        .course-navigation a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            display: block;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .course-navigation a:hover,
+        .course-navigation a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .course-navigation {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="course-page">
+    <div class="course-progress-bar">
+        <div class="course-progress-bar-fill"></div>
+    </div>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="cours.html">Cours</a></li>
+                <li><a href="jeu-ecologique.html">Jeu Écologique</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="course-container">
+            <div class="course-header">
+                <h1>L'Empreinte Carbone</h1>
+                <p>Niveau : Intermédiaire | Durée : 3 heures</p>
+            </div>
+
+            <div class="course-content">
+                <section id="definition" class="course-section">
+                    <h2>Qu'est-ce que l'Empreinte Carbone ?</h2>
+                    <p>L'empreinte carbone est la mesure de l'impact des activités humaines sur l'environnement en termes d'émissions de gaz à effet de serre, exprimée en équivalent CO2.</p>
+                    
+                    <div class="interactive-element">
+                        <h3>Saviez-vous ?</h3>
+                        <p>L'empreinte carbone moyenne d'un Français est d'environ 11 tonnes de CO2 par an, alors que l'objectif pour limiter le réchauffement climatique est de 2 tonnes par personne.</p>
+                    </div>
+                </section>
+
+                <section id="sources" class="course-section">
+                    <h2>Les Sources d'Émissions</h2>
+                    <p>Les principales sources d'émissions de CO2 sont :</p>
+                    <ul>
+                        <li>Le transport (voiture, avion, transport en commun)</li>
+                        <li>Le logement (chauffage, électricité)</li>
+                        <li>L'alimentation (production, transport, transformation)</li>
+                        <li>Les biens de consommation (production, transport)</li>
+                    </ul>
+
+                    <div class="interactive-element">
+                        <h3>Chiffre clé</h3>
+                        <p>Le transport représente environ 30% des émissions de CO2 en France, dont plus de la moitié provient des voitures individuelles.</p>
+                    </div>
+                </section>
+
+                <section id="calculateur" class="course-section">
+                    <h2>Calculez Votre Empreinte Carbone</h2>
+                    <p>Utilisez notre calculateur simple pour estimer votre empreinte carbone personnelle :</p>
+
+                    <div class="calculator">
+                        <h3>Calculateur d'Empreinte Carbone</h3>
+                        <form class="calculator-form" id="carbonCalculator">
+                            <div class="form-group">
+                                <label for="transport">Mode de transport principal</label>
+                                <select id="transport" required>
+                                    <option value="voiture">Voiture</option>
+                                    <option value="transport">Transport en commun</option>
+                                    <option value="velo">Vélo/Marche</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="km">Kilométrage annuel</label>
+                                <input type="number" id="km" min="0" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="energie">Type d'énergie principale</label>
+                                <select id="energie" required>
+                                    <option value="electricite">Électricité</option>
+                                    <option value="gaz">Gaz</option>
+                                    <option value="fioul">Fioul</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="consommation">Consommation annuelle (kWh)</label>
+                                <input type="number" id="consommation" min="0" required>
+                            </div>
+
+                            <button type="submit" class="button">Calculer mon empreinte</button>
+                        </form>
+
+                        <div class="calculator-result" id="calculatorResult">
+                            <h3>Votre empreinte carbone estimée</h3>
+                            <p id="resultValue"></p>
+                            <p id="resultMessage"></p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="reduction" class="course-section">
+                    <h2>Comment Réduire Son Empreinte Carbone ?</h2>
+                    <p>Voici quelques actions concrètes pour réduire votre impact :</p>
+                    <ul>
+                        <li>Privilégier les transports en commun ou le vélo</li>
+                        <li>Optimiser la consommation énergétique de son logement</li>
+                        <li>Adopter une alimentation plus locale et moins carnée</li>
+                        <li>Réduire ses déchets et recycler</li>
+                        <li>Choisir des produits durables et réparables</li>
+                    </ul>
+
+                    <div class="interactive-element">
+                        <h3>Action immédiate</h3>
+                        <p>Commencez par réduire votre consommation de viande : un repas végétarien par semaine peut réduire votre empreinte carbone de 2,5 kg de CO2.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Section Quiz -->
+        <div class="quiz-section">
+            <h2>Quiz : Testez vos connaissances sur l'empreinte carbone</h2>
+            <div class="quiz-progress">
+                <div class="quiz-progress-bar"></div>
+            </div>
+
+            <div class="quiz-question active" data-question="1">
+                <h3>Qu'est-ce que l'empreinte carbone ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="true">
+                        La quantité totale de gaz à effet de serre émise par une activité, une personne ou une organisation
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        La quantité de carbone dans l'atmosphère
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        La quantité de CO2 absorbée par les arbres
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        La quantité de carbone dans le sol
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="2">
+                <h3>Quelle activité génère le plus d'émissions de CO2 ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        Le recyclage des déchets
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        Les transports (voiture, avion)
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        La consommation d'eau
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Le compostage
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="3">
+                <h3>Comment réduire son empreinte carbone alimentaire ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        Manger plus de viande rouge
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        Privilégier les produits locaux et de saison
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Augmenter les importations
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Manger plus de produits transformés
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="4">
+                <h3>Quelle est la meilleure action pour réduire son empreinte carbone au quotidien ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        Acheter des produits neufs régulièrement
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Utiliser la climatisation en été
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        Réduire sa consommation d'énergie et privilégier les transports doux
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Augmenter sa consommation de produits importés
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-question="5">
+                <h3>Quel est l'impact de la consommation de viande sur l'empreinte carbone ?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">
+                        Aucun impact significatif
+                    </div>
+                    <div class="quiz-option" data-correct="true">
+                        Un impact majeur, particulièrement pour la viande rouge
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Un impact uniquement pour la viande importée
+                    </div>
+                    <div class="quiz-option" data-correct="false">
+                        Un impact uniquement pour la viande bio
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-navigation">
+                <button class="quiz-button" id="prevQuestion" disabled>Question précédente</button>
+                <button class="quiz-button" id="nextQuestion">Question suivante</button>
+            </div>
+
+            <div class="quiz-results">
+                <div class="quiz-score">Score: <span id="score">0</span>/5</div>
+                <div class="quiz-feedback" id="feedback"></div>
+                <button class="quiz-restart">Recommencer le quiz</button>
+            </div>
+        </div>
+
+        <nav class="course-navigation">
+            <ul>
+                <li><a href="#definition">Définition</a></li>
+                <li><a href="#sources">Sources</a></li>
+                <li><a href="#calculateur">Calculateur</a></li>
+                <li><a href="#reduction">Réduction</a></li>
+            </ul>
+        </nav>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Écologie et Énergies Fossiles. Tous droits réservés.</p>
+    </footer>
+
+    <!-- Éléments décoratifs -->
+    <div class="floating-element leaf" style="top: 15%; right: 5%;"></div>
+    <div class="floating-element drop" style="top: 35%; left: 8%;"></div>
+    <div class="floating-element sun" style="top: 55%; right: 12%;"></div>
+    <div class="floating-element leaf" style="top: 75%; left: 15%;"></div>
+    <div class="floating-element drop" style="top: 90%; right: 10%;"></div>
+
+    <script>
+        // Animation des sections au scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.course-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Mise à jour de la barre de progression
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.querySelector('.course-progress-bar-fill').style.width = scrolled + '%';
+        });
+
+        // Navigation active
+        const sections = document.querySelectorAll('.course-section');
+        const navLinks = document.querySelectorAll('.course-navigation a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Calculateur d'empreinte carbone
+        document.getElementById('carbonCalculator').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Coefficients d'émission (simplifiés)
+            const transportCoeffs = {
+                voiture: 0.2, // kg CO2/km
+                transport: 0.05,
+                velo: 0
+            };
+
+            const energieCoeffs = {
+                electricite: 0.1, // kg CO2/kWh
+                gaz: 0.2,
+                fioul: 0.3
+            };
+
+            // Calcul
+            const transport = document.getElementById('transport').value;
+            const km = parseFloat(document.getElementById('km').value);
+            const energie = document.getElementById('energie').value;
+            const consommation = parseFloat(document.getElementById('consommation').value);
+
+            const transportEmissions = km * transportCoeffs[transport];
+            const energieEmissions = consommation * energieCoeffs[energie];
+            const totalEmissions = transportEmissions + energieEmissions;
+
+            // Affichage du résultat
+            const resultDiv = document.getElementById('calculatorResult');
+            const resultValue = document.getElementById('resultValue');
+            const resultMessage = document.getElementById('resultMessage');
+
+            resultValue.textContent = `Votre empreinte carbone estimée : ${totalEmissions.toFixed(1)} tonnes de CO2 par an`;
+            
+            if (totalEmissions < 2) {
+                resultMessage.textContent = "Excellent ! Vous êtes en dessous de l'objectif de 2 tonnes par personne.";
+            } else if (totalEmissions < 5) {
+                resultMessage.textContent = "Bien ! Vous êtes en dessous de la moyenne française, mais il y a encore des progrès à faire.";
+            } else {
+                resultMessage.textContent = "Votre empreinte carbone est supérieure à la moyenne. Consultez nos conseils pour la réduire.";
+            }
+
+            resultDiv.classList.add('show');
+        });
+
+        // Animation des éléments interactifs
+        document.querySelectorAll('.interactive-element').forEach(element => {
+            element.addEventListener('click', () => {
+                element.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    element.style.transform = 'translateX(10px)';
+                }, 200);
+            });
+        });
+
+        // Animation des éléments flottants
+        function animateFloatingElements() {
+            const elements = document.querySelectorAll('.floating-element');
+            elements.forEach(element => {
+                const randomX = Math.random() * 20 - 10;
+                const randomY = Math.random() * 20 - 10;
+                const randomDelay = Math.random() * 2;
+                element.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                element.style.animationDelay = `${randomDelay}s`;
+            });
+        }
+
+        // Appeler l'animation toutes les 5 secondes
+        setInterval(animateFloatingElements, 5000);
+        animateFloatingElements();
+
+        // Quiz functionality
+        const quizQuestions = document.querySelectorAll('.quiz-question');
+        const prevButton = document.getElementById('prevQuestion');
+        const nextButton = document.getElementById('nextQuestion');
+        const progressBar = document.querySelector('.quiz-progress-bar');
+        const quizResults = document.querySelector('.quiz-results');
+        const scoreElement = document.getElementById('score');
+        const feedbackElement = document.getElementById('feedback');
+        const restartButton = document.querySelector('.quiz-restart');
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = new Array(quizQuestions.length).fill(null);
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function showQuestion(index) {
+            quizQuestions.forEach(q => q.classList.remove('active'));
+            quizQuestions[index].classList.add('active');
+            
+            prevButton.disabled = index === 0;
+            nextButton.textContent = index === quizQuestions.length - 1 ? 'Terminer' : 'Question suivante';
+            
+            updateProgress();
+        }
+
+        function checkAnswer(questionIndex, optionIndex) {
+            const question = quizQuestions[questionIndex];
+            const options = question.querySelectorAll('.quiz-option');
+            
+            options.forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+
+            const selectedOption = options[optionIndex];
+            const isCorrect = selectedOption.dataset.correct === 'true';
+            
+            selectedOption.classList.add('selected');
+            selectedOption.classList.add(isCorrect ? 'correct' : 'incorrect');
+            
+            if (isCorrect && answers[questionIndex] === null) {
+                score++;
+            } else if (!isCorrect && answers[questionIndex] !== null) {
+                score--;
+            }
+            
+            answers[questionIndex] = optionIndex;
+        }
+
+        function showResults() {
+            quizQuestions.forEach(q => q.style.display = 'none');
+            quizResults.classList.add('active');
+            scoreElement.textContent = score;
+            
+            const percentage = (score / quizQuestions.length) * 100;
+            let feedback = '';
+            
+            if (percentage === 100) {
+                feedback = 'Excellent ! Vous êtes un expert de l\'empreinte carbone !';
+            } else if (percentage >= 80) {
+                feedback = 'Très bien ! Vous avez une excellente compréhension de l\'empreinte carbone.';
+            } else if (percentage >= 60) {
+                feedback = 'Bien ! Vous avez une bonne compréhension de l\'empreinte carbone.';
+            } else if (percentage >= 40) {
+                feedback = 'Pas mal ! Vous avez des bases solides, mais il reste des points à approfondir.';
+            } else {
+                feedback = 'Continuez à apprendre ! La réduction de l\'empreinte carbone est essentielle pour notre avenir.';
+            }
+            
+            feedbackElement.textContent = feedback;
+        }
+
+        // Event listeners
+        quizQuestions.forEach((question, qIndex) => {
+            const options = question.querySelectorAll('.quiz-option');
+            options.forEach((option, oIndex) => {
+                option.addEventListener('click', () => checkAnswer(qIndex, oIndex));
+            });
+        });
+
+        prevButton.addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestion < quizQuestions.length - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else {
+                showResults();
+            }
+        });
+
+        restartButton.addEventListener('click', () => {
+            currentQuestion = 0;
+            score = 0;
+            answers = new Array(quizQuestions.length).fill(null);
+            quizQuestions.forEach(q => {
+                q.style.display = 'block';
+                q.querySelectorAll('.quiz-option').forEach(o => {
+                    o.classList.remove('selected', 'correct', 'incorrect');
+                });
+            });
+            quizResults.classList.remove('active');
+            showQuestion(0);
+        });
+
+        // Initialize quiz
+        showQuestion(0);
+    </script>
+    <script src="nav.js"></script>
+</body>
+</html> 

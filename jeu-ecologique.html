@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu Écologique - Plantons des Arbres</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .game-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: #f0f8f0;
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .tree-container {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            margin: 0 auto;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .tree-container:active {
+            transform: scale(0.95);
+        }
+
+        .tree {
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200"><path d="M50 0 L80 60 L50 50 L20 60 Z" fill="%232e7d32"/><path d="M50 50 L80 120 L50 110 L20 120 Z" fill="%232e7d32"/><path d="M50 110 L80 180 L50 170 L20 180 Z" fill="%232e7d32"/><path d="M45 180 L55 180 L55 200 L45 200 Z" fill="%238d6e63"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+
+        .click-effect {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: rgba(46, 125, 50, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: clickAnimation 0.5s ease-out;
+        }
+
+        @keyframes clickAnimation {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .upgrades {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .upgrade-item {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upgrade-item:hover {
+            background: #e8f5e9;
+            transform: translateY(-2px);
+        }
+
+        .upgrade-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .upgrade-title {
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .upgrade-cost {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .upgrade-effect {
+            color: #2e7d32;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .achievement {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4caf50;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            animation: slideIn 0.5s ease-out;
+            display: none;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .tree-growth {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            background: #8d6e63;
+            transition: height 0.3s;
+        }
+    </style>
+</head>
+<body class="course-page">
+    <div class="progress-bar">
+        <div class="progress"></div>
+    </div>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="cours.html">Cours</a></li>
+                <li><a href="jeu-ecologique.html" class="active">Jeu Écologique</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="game-container">
+            <h1>Plantons des Arbres !</h1>
+            <p>Cliquez sur l'arbre pour planter et réduire votre empreinte carbone !</p>
+
+            <div class="game-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="trees-planted">0</div>
+                    <div class="stat-label">Arbres plantés</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="carbon-reduced">0</div>
+                    <div class="stat-label">kg CO₂ réduits</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="coins">0</div>
+                    <div class="stat-label">Pièces</div>
+                </div>
+            </div>
+
+            <div class="tree-container" id="tree-container">
+                <div class="tree"></div>
+                <div class="tree-growth" id="tree-growth"></div>
+            </div>
+
+            <div class="upgrades">
+                <div class="upgrade-item" data-upgrade="fertilizer">
+                    <div class="upgrade-title">Engrais Bio</div>
+                    <div class="upgrade-cost">Coût: 50 pièces</div>
+                    <div class="upgrade-effect">+2 arbres par clic</div>
+                </div>
+                <div class="upgrade-item" data-upgrade="watering-can">
+                    <div class="upgrade-title">Arrosoir</div>
+                    <div class="upgrade-cost">Coût: 100 pièces</div>
+                    <div class="upgrade-effect">+5 arbres par clic</div>
+                </div>
+                <div class="upgrade-item" data-upgrade="gardeners">
+                    <div class="upgrade-title">Jardiniers</div>
+                    <div class="upgrade-cost">Coût: 500 pièces</div>
+                    <div class="upgrade-effect">+1 arbre par seconde</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="achievement" id="achievement">
+            Nouveau record atteint !
+        </div>
+    </main>
+
+    <script>
+        let gameState = {
+            trees: 0,
+            carbonReduced: 0,
+            coins: 0,
+            treesPerClick: 1,
+            treesPerSecond: 0,
+            upgrades: {
+                fertilizer: { owned: 0, cost: 50, effect: 2 },
+                wateringCan: { owned: 0, cost: 100, effect: 5 },
+                gardeners: { owned: 0, cost: 500, effect: 1 }
+            }
+        };
+
+        // Mise à jour des statistiques
+        function updateStats() {
+            document.getElementById('trees-planted').textContent = Math.floor(gameState.trees);
+            document.getElementById('carbon-reduced').textContent = Math.floor(gameState.carbonReduced);
+            document.getElementById('coins').textContent = Math.floor(gameState.coins);
+            
+            // Mise à jour de la hauteur de l'arbre
+            const treeGrowth = document.getElementById('tree-growth');
+            const growthHeight = Math.min(200, gameState.trees / 10);
+            treeGrowth.style.height = `${growthHeight}px`;
+        }
+
+        // Gestion des clics
+        document.getElementById('tree-container').addEventListener('click', (e) => {
+            // Effet visuel du clic
+            const clickEffect = document.createElement('div');
+            clickEffect.className = 'click-effect';
+            clickEffect.style.left = `${e.offsetX - 25}px`;
+            clickEffect.style.top = `${e.offsetY - 25}px`;
+            e.currentTarget.appendChild(clickEffect);
+            setTimeout(() => clickEffect.remove(), 500);
+
+            // Mise à jour du jeu
+            gameState.trees += gameState.treesPerClick;
+            gameState.carbonReduced += gameState.treesPerClick * 22; // Un arbre absorbe environ 22kg de CO2 par an
+            gameState.coins += gameState.treesPerClick;
+
+            // Vérification des records
+            checkAchievements();
+            updateStats();
+        });
+
+        // Gestion des améliorations
+        document.querySelectorAll('.upgrade-item').forEach(upgrade => {
+            upgrade.addEventListener('click', () => {
+                const upgradeType = upgrade.dataset.upgrade;
+                const upgradeData = gameState.upgrades[upgradeType];
+
+                if (gameState.coins >= upgradeData.cost) {
+                    gameState.coins -= upgradeData.cost;
+                    upgradeData.owned++;
+                    upgradeData.cost = Math.floor(upgradeData.cost * 1.5);
+
+                    if (upgradeType === 'gardeners') {
+                        gameState.treesPerSecond += upgradeData.effect;
+                    } else {
+                        gameState.treesPerClick += upgradeData.effect;
+                    }
+
+                    updateUpgradeDisplay(upgrade, upgradeData);
+                    updateStats();
+                }
+            });
+        });
+
+        function updateUpgradeDisplay(upgradeElement, upgradeData) {
+            const costElement = upgradeElement.querySelector('.upgrade-cost');
+            costElement.textContent = `Coût: ${Math.floor(upgradeData.cost)} pièces`;
+            
+            if (gameState.coins < upgradeData.cost) {
+                upgradeElement.classList.add('disabled');
+            } else {
+                upgradeElement.classList.remove('disabled');
+            }
+        }
+
+        // Vérification des records
+        function checkAchievements() {
+            const achievements = [
+                { threshold: 100, message: "100 arbres plantés ! 🌳" },
+                { threshold: 500, message: "500 arbres plantés ! 🌲" },
+                { threshold: 1000, message: "1000 arbres plantés ! 🌴" },
+                { threshold: 5000, message: "5000 arbres plantés ! 🌵" }
+            ];
+
+            achievements.forEach(achievement => {
+                if (gameState.trees >= achievement.threshold && 
+                    gameState.trees - gameState.treesPerClick < achievement.threshold) {
+                    showAchievement(achievement.message);
+                }
+            });
+        }
+
+        function showAchievement(message) {
+            const achievement = document.getElementById('achievement');
+            achievement.textContent = message;
+            achievement.style.display = 'block';
+            setTimeout(() => {
+                achievement.style.display = 'none';
+            }, 3000);
+        }
+
+        // Boucle de jeu pour les améliorations automatiques
+        setInterval(() => {
+            gameState.trees += gameState.treesPerSecond;
+            gameState.carbonReduced += gameState.treesPerSecond * 22;
+            gameState.coins += gameState.treesPerSecond;
+            updateStats();
+        }, 1000);
+
+        // Mise à jour initiale
+        updateStats();
+    </script>
+</body>
+</html> 
