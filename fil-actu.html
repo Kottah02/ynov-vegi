@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fil d'Actualité - Écologie et Environnement</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .news-container {
+            max-width: 1200px;
+            margin: 120px auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .news-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-title {
+            color: #2c5282;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .news-excerpt {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .news-link {
+            color: #2c5282;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .news-link:hover {
+            text-decoration: underline;
+        }
+
+        .news-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #e2e8f0;
+            color: #2d3748;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .news-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-button {
+            padding: 0.5rem 1rem;
+            border: 2px solid #2c5282;
+            border-radius: 20px;
+            background: transparent;
+            color: #2c5282;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-button:hover,
+        .filter-button.active {
+            background: #2c5282;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .news-container {
+                margin-top: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="ynov.png" alt="Logo Ynov" class="logo-img">
+            </a>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="cours.html">Cours</a></li>
+                <li><a href="fil-actu.html" class="active">Fil d'Actualité</a></li>
+                <li><a href="jeu-ecologique.html">Jeu Écologique</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="news-container">
+            <h1>Fil d'Actualité Écologique</h1>
+            <p>Restez informé des dernières actualités sur l'écologie et l'environnement</p>
+
+            <div class="news-filters">
+                <button class="filter-button active">Tous</button>
+                <button class="filter-button">Climat</button>
+                <button class="filter-button">Biodiversité</button>
+                <button class="filter-button">Énergies</button>
+                <button class="filter-button">Innovation</button>
+            </div>
+
+            <div class="news-grid">
+                <!-- Article 1 -->
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Forêt tropicale" class="news-image">
+                    <div class="news-content">
+                        <span class="news-category">Biodiversité</span>
+                        <div class="news-date">15 Mars 2024</div>
+                        <h2 class="news-title">Découverte d'une nouvelle espèce dans la forêt amazonienne</h2>
+                        <p class="news-excerpt">Des scientifiques ont identifié une nouvelle espèce de grenouille dans la forêt amazonienne, soulignant l'importance de la préservation de la biodiversité...</p>
+                        <a href="#" class="news-link">Lire la suite →</a>
+                    </div>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Panneaux solaires" class="news-image">
+                    <div class="news-content">
+                        <span class="news-category">Énergies</span>
+                        <div class="news-date">14 Mars 2024</div>
+                        <h2 class="news-title">Record de production d'énergie solaire en France</h2>
+                        <p class="news-excerpt">La France a battu son record de production d'énergie solaire, atteignant 15% de sa consommation électrique totale...</p>
+                        <a href="#" class="news-link">Lire la suite →</a>
+                    </div>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Innovation technologique" class="news-image">
+                    <div class="news-content">
+                        <span class="news-category">Innovation</span>
+                        <div class="news-date">13 Mars 2024</div>
+                        <h2 class="news-title">Une nouvelle technologie pour recycler le plastique</h2>
+                        <p class="news-excerpt">Des chercheurs ont développé une méthode révolutionnaire pour recycler les plastiques complexes en matériaux réutilisables...</p>
+                        <a href="#" class="news-link">Lire la suite →</a>
+                    </div>
+                </article>
+
+                <!-- Article 4 -->
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Changement climatique" class="news-image">
+                    <div class="news-content">
+                        <span class="news-category">Climat</span>
+                        <div class="news-date">12 Mars 2024</div>
+                        <h2 class="news-title">Nouveau rapport sur l'impact du changement climatique</h2>
+                        <p class="news-excerpt">Le dernier rapport du GIEC met en évidence l'accélération des effets du changement climatique et propose des solutions urgentes...</p>
+                        <a href="#" class="news-link">Lire la suite →</a>
+                    </div>
+                </article>
+
+                <!-- Article 5 -->
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Agriculture durable" class="news-image">
+                    <div class="news-content">
+                        <span class="news-category">Innovation</span>
+                        <div class="news-date">11 Mars 2024</div>
+                        <h2 class="news-title">L'agriculture verticale : une solution pour l'avenir ?</h2>
+                        <p class="news-excerpt">Les fermes verticales urbaines se multiplient, offrant une alternative durable à l'agriculture traditionnelle...</p>
+                        <a href="#" class="news-link">Lire la suite →</a>
+                    </div>
+                </article>
+
+                <!-- Article 6 -->
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Océans" class="news-image">
+                    <div class="news-content">
+                        <span class="news-category">Biodiversité</span>
+                        <div class="news-date">10 Mars 2024</div>
+                        <h2 class="news-title">Protection des océans : nouvelles mesures internationales</h2>
+                        <p class="news-excerpt">Les nations unies adoptent un nouveau traité pour protéger la biodiversité marine en haute mer...</p>
+                        <a href="#" class="news-link">Lire la suite →</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Écologie et Énergies Fossiles. Tous droits réservés.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="nav.js"></script>
+    <script>
+        // Filtrage des articles
+        document.querySelectorAll('.filter-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Retirer la classe active de tous les boutons
+                document.querySelectorAll('.filter-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                // Ajouter la classe active au bouton cliqué
+                button.classList.add('active');
+
+                const category = button.textContent;
+                const articles = document.querySelectorAll('.news-card');
+
+                articles.forEach(article => {
+                    const articleCategory = article.querySelector('.news-category').textContent;
+                    if (category === 'Tous' || category === articleCategory) {
+                        article.style.display = 'block';
+                    } else {
+                        article.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

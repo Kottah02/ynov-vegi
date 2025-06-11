@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Écologie</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .quiz-page-container {
+            max-width: 800px;
+            margin: 120px auto 2rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-header h1 {
+            color: #2c5282;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-progress {
+            margin: 2rem 0;
+            padding: 1rem;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+
+        .quiz-progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: #2c5282;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-question {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f7fafc;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .quiz-question.active {
+            display: block;
+        }
+
+        .quiz-question h2 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: #2c5282;
+            background: #ebf8ff;
+        }
+
+        .quiz-option.selected {
+            border-color: #2c5282;
+            background: #ebf8ff;
+        }
+
+        .quiz-option.correct {
+            border-color: #48bb78;
+            background: #f0fff4;
+        }
+
+        .quiz-option.incorrect {
+            border-color: #f56565;
+            background: #fff5f5;
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .quiz-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .quiz-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .quiz-button.next {
+            background: #2c5282;
+            color: white;
+        }
+
+        .quiz-button.next:hover:not(:disabled) {
+            background: #2a4365;
+        }
+
+        .quiz-button.prev {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .quiz-button.prev:hover:not(:disabled) {
+            background: #cbd5e0;
+        }
+
+        .quiz-results {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .quiz-results h2 {
+            color: #2c5282;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-score {
+            font-size: 2rem;
+            color: #2c5282;
+            margin: 1rem 0;
+        }
+
+        .quiz-feedback {
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 6px;
+            background: #f7fafc;
+        }
+
+        .quiz-restart {
+            background: #2c5282;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .quiz-restart:hover {
+            background: #2a4365;
+        }
+
+        @media (max-width: 768px) {
+            .quiz-page-container {
+                margin: 100px 1rem 2rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="ynov.png" alt="Logo Ynov" class="logo-img">
+            </a>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="cours.html">Cours</a></li>
+                <li><a href="fil-actu.html">Fil d'Actualité</a></li>
+                <li><a href="jeu-ecologique.html">Jeu Écologique</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="quiz-page-container">
+            <div class="quiz-header">
+                <h1>Quiz sur l'Écologie</h1>
+                <p>Testez vos connaissances sur l'écologie</p>
+            </div>
+
+            <div class="quiz-progress">
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill"></div>
+                </div>
+            </div>
+
+            <div id="quiz-questions">
+                <!-- Les questions seront insérées ici par JavaScript -->
+            </div>
+
+            <div class="quiz-navigation">
+                <button class="quiz-button prev" disabled>Question précédente</button>
+                <button class="quiz-button next">Question suivante</button>
+            </div>
+
+            <div class="quiz-results">
+                <h2>Résultats du Quiz</h2>
+                <div class="quiz-score"></div>
+                <div class="quiz-feedback"></div>
+                <button class="quiz-restart">Recommencer le Quiz</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Écologie et Énergies Fossiles. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // Définition des questions du quiz
+        const quizQuestions = [
+            {
+                question: 'Qu\'est-ce que l\'écologie ?',
+                options: [
+                    'L\'étude des relations entre les êtres vivants et leur environnement',
+                    'L\'étude uniquement des animaux',
+                    'L\'étude des plantes uniquement',
+                    'L\'étude de la météo'
+                ],
+                correct: 0,
+                explanation: 'L\'écologie est la science qui étudie les relations entre les êtres vivants et leur environnement.'
+            },
+            {
+                question: 'Quel est le terme grec à l\'origine du mot "écologie" ?',
+                options: [
+                    'Bios (vie)',
+                    'Oikos (maison)',
+                    'Physis (nature)',
+                    'Gaia (terre)'
+                ],
+                correct: 1,
+                explanation: 'Le mot "écologie" vient du grec "oikos" qui signifie "maison" et "logos" qui signifie "étude".'
+            },
+            {
+                question: 'Qu\'est-ce qu\'un écosystème ?',
+                options: [
+                    'Uniquement les animaux d\'une région',
+                    'L\'ensemble des êtres vivants et leur environnement',
+                    'Uniquement les plantes d\'une région',
+                    'Un système de recyclage'
+                ],
+                correct: 1,
+                explanation: 'Un écosystème est l\'ensemble formé par une communauté d\'êtres vivants et son environnement.'
+            },
+            {
+                question: 'Quelle est la principale cause de la perte de biodiversité ?',
+                options: [
+                    'Les activités humaines',
+                    'Les catastrophes naturelles',
+                    'Les épidémies',
+                    'Les changements climatiques naturels'
+                ],
+                correct: 0,
+                explanation: 'Les activités humaines (déforestation, pollution, urbanisation, etc.) sont la principale cause de la perte de biodiversité.'
+            },
+            {
+                question: 'Qu\'est-ce que la biodiversité ?',
+                options: [
+                    'La diversité des espèces vivantes',
+                    'Uniquement la diversité des plantes',
+                    'Uniquement la diversité des animaux',
+                    'La diversité des paysages'
+                ],
+                correct: 0,
+                explanation: 'La biodiversité désigne la diversité de toutes les formes de vie sur Terre (plantes, animaux, micro-organismes).'
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = [];
+        let quizCompleted = false;
+
+        // Fonction pour initialiser le quiz
+        function initQuiz() {
+            const questionsContainer = document.getElementById('quiz-questions');
+            const progressFill = document.querySelector('.quiz-progress-fill');
+            const prevButton = document.querySelector('.quiz-button.prev');
+            const nextButton = document.querySelector('.quiz-button.next');
+            const resultsDiv = document.querySelector('.quiz-results');
+            const scoreDiv = document.querySelector('.quiz-score');
+            const feedbackDiv = document.querySelector('.quiz-feedback');
+            const restartButton = document.querySelector('.quiz-restart');
+
+            // Créer les éléments de question
+            quizQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = `quiz-question ${index === 0 ? 'active' : ''}`;
+                questionDiv.innerHTML = `
+                    <h2>Question ${index + 1}</h2>
+                    <p>${q.question}</p>
+                    <div class="quiz-options">
+                        ${q.options.map((option, i) => `
+                            <div class="quiz-option" data-index="${i}">
+                                <input type="radio" name="q${index}" value="${i}" id="q${index}o${i}">
+                                <label for="q${index}o${i}">${option}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                questionsContainer.appendChild(questionDiv);
+            });
+
+            // Mettre à jour la barre de progression
+            function updateProgress() {
+                const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
+                progressFill.style.width = `${progress}%`;
+            }
+
+            // Afficher la question actuelle
+            function showQuestion(index) {
+                document.querySelectorAll('.quiz-question').forEach((q, i) => {
+                    q.classList.toggle('active', i === index);
+                });
+                updateProgress();
+                prevButton.disabled = index === 0;
+                nextButton.textContent = index === quizQuestions.length - 1 ? 'Terminer' : 'Question suivante';
+            }
+
+            // Gérer la sélection des réponses
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const questionIndex = parseInt(option.closest('.quiz-question').querySelector('h2').textContent.split(' ')[1]) - 1;
+                    const optionIndex = parseInt(option.dataset.index);
+                    
+                    // Désélectionner les autres options
+                    option.closest('.quiz-options').querySelectorAll('.quiz-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Sélectionner l'option cliquée
+                    option.classList.add('selected');
+                    userAnswers[questionIndex] = optionIndex;
+                });
+            });
+
+            // Gérer la navigation
+            prevButton.addEventListener('click', () => {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    showQuestion(currentQuestion);
+                }
+            });
+
+            nextButton.addEventListener('click', () => {
+                if (currentQuestion < quizQuestions.length - 1) {
+                    if (userAnswers[currentQuestion] !== undefined) {
+                        currentQuestion++;
+                        showQuestion(currentQuestion);
+                    } else {
+                        alert('Veuillez sélectionner une réponse avant de continuer.');
+                    }
+                } else {
+                    if (userAnswers[currentQuestion] !== undefined) {
+                        showResults();
+                    } else {
+                        alert('Veuillez sélectionner une réponse avant de terminer.');
+                    }
+                }
+            });
+
+            // Afficher les résultats
+            function showResults() {
+                let score = 0;
+                let feedback = '';
+
+                userAnswers.forEach((answer, index) => {
+                    if (answer === quizQuestions[index].correct) {
+                        score++;
+                    }
+                    feedback += `
+                        <div class="question-feedback">
+                            <p><strong>Question ${index + 1}:</strong> ${quizQuestions[index].question}</p>
+                            <p>Votre réponse: ${quizQuestions[index].options[answer]}</p>
+                            <p>Réponse correcte: ${quizQuestions[index].options[quizQuestions[index].correct]}</p>
+                            <p>${quizQuestions[index].explanation}</p>
+                        </div>
+                    `;
+                });
+
+                document.querySelector('.quiz-navigation').style.display = 'none';
+                document.querySelector('.quiz-progress').style.display = 'none';
+                document.getElementById('quiz-questions').style.display = 'none';
+                resultsDiv.style.display = 'block';
+                scoreDiv.textContent = `Score: ${score}/${quizQuestions.length}`;
+                feedbackDiv.innerHTML = feedback;
+            }
+
+            // Gérer le redémarrage du quiz
+            restartButton.addEventListener('click', () => {
+                currentQuestion = 0;
+                userAnswers = [];
+                document.querySelector('.quiz-navigation').style.display = 'flex';
+                document.querySelector('.quiz-progress').style.display = 'block';
+                document.getElementById('quiz-questions').style.display = 'block';
+                resultsDiv.style.display = 'none';
+                document.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect');
+                });
+                document.querySelectorAll('input[type="radio"]').forEach(input => {
+                    input.checked = false;
+                });
+                showQuestion(0);
+            });
+
+            // Initialiser la première question
+            showQuestion(0);
+        }
+
+        // Initialiser le quiz au chargement de la page
+        document.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
+</body>
+</html> 
